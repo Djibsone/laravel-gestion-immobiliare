@@ -1,6 +1,7 @@
 @extends('base')
 
 @section('content')
+    {{-- <x-alert type="danger"></x-alert> --}}
     <div class="bg-light p-5 mb-5 text-center">
         <div class="container">
             <h1>Agence lorem ipsun</h1>

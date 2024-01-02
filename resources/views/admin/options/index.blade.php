@@ -33,7 +33,7 @@
                             <form action="{{ route('admin.option.destroy', $option) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button class="btn btn-danger">Supprimer</button>
+                                <button class="btn btn-danger" onclick=" return confirm('Voulez-vous vraiment supprimer l\'option {{ $option->name }} ?')">Supprimer</button>
                             </form>
                         </div>
                     </td>

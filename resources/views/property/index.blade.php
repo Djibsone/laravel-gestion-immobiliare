@@ -16,25 +16,34 @@
         </form>
     </div>
 
-    <div class="container">
-        {{-- <h2>Nos derniers biens</h2> --}}
-        <div class="row my-3">
+    {{-- <div class="container">
+        <div class="row">
             @forelse ($properties as $property)
                 @include('property.card')
-
-                @empty
-
-                <div class="col">
-                    Aucun bien ne correspond à votre recherche...
-                </div>
-                
+            @empty
+            <div class="col">
+                Aucun bien ne correspond à votre recherche...
+            </div>
             @endforelse
         </div>
-
         <div class="my-4">
             {{ $properties->links() }}
         </div>
-        
+    </div> --}}
+
+    <div class="container">
+        <div class="row">
+            @forelse ($properties as $property)
+                @include('property.card')
+            @empty
+            <div class="col">
+                Aucun bien ne correspond à votre recherche...
+            </div>
+            @endforelse
+        </div>
+        <div class="my-4">
+            {{ $properties->links() }}
+        </div>
     </div>
 
 @endsection

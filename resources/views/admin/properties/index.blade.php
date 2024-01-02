@@ -40,7 +40,7 @@
                             <form action="{{ route('admin.property.destroy', $property) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button class="btn btn-danger">Supprimer</button>
+                                <button class="btn btn-danger" onclick=" return confirm('Voulez-vous vraiment supprimer le bien {{ $property->title }} ?')">Supprimer</button>
                             </form>
                         </div>
                     </td>
