@@ -6,9 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PropertyFormRequest;
 use App\Models\Option;
 use App\Models\Property;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
+    public function __construct() 
+    {
+        $this->authorizeResource(Property::class, 'property');
+    }
+
     /**
      * Display a listing of the resource.
      */
