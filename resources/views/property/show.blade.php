@@ -83,28 +83,34 @@
     <div class="row">
         <div class="col-md-6">
             <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    {{-- @foreach ($property->images as $key => $image)
-                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                            <img src="{{ asset('storage/' . $image->file_path) }}" class="d-block w-100" alt="Image {{ $key + 1 }}">
+                {{-- <div class="carousel-inner">
+                    @forelse (json_decode($property->image_paths) ?? [] as $key => $imagePath)
+                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }} p-2">
+                            <img src="{{ asset('storage/' . $imagePath) }}" class="d-block w-100" alt="Image {{ $key + 1 }}">
                         </div>
-                    @endforeach --}}
-                    @if ($property->file_path)
-                        <div class="p-2">
-                            <img src="{{ asset('storage/' . $property->file_path) }}" class="card-img-top custom-card-image img-fluid" alt="Image Téléchargée">
+                    @empty
+                        <div class="carousel-item active p-2">
+                            <img src="{{ asset('path/to/default/image.jpg') }}" class="d-block w-100" alt="Default Image">
                         </div>
-                    @endif
+                    @endforelse
+                </div> --}}
+
+                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @forelse (json_decode($property->image_paths) ?? [] as $key => $imagePath)
+                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }} p-2">
+                                <img src="{{ asset('storage/' . $imagePath) }}" style="max-width: 100%; max-height: 600px; object-fit: cover;" alt="Image {{ $key + 1 }}">
+                            </div>
+                        @empty
+                            <div class="carousel-item active p-2">
+                                <img src="{{ asset('path/to/default/image.jpg') }}" class="d-block w-100" alt="Default Image">
+                            </div>
+                        @endforelse
+                    </div>
                 </div>
-                {{-- <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button> --}}
             </div>
         </div>
+        
         <div class="col-md-6">
             <h1>{{ $property->title }}</h1>
             <h2>{{ $property->rooms }} pièces - {{ $property->surface }} m²</h2>

@@ -50,46 +50,37 @@ class PropertyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(PropertyFormRequest $request)
-    // {
-    //     $property = Property::create($request->validated());
-    //     $property->options()->sync($request->validated('options'));
-    //     return to_route('admin.property.index')->with(['message' => ['type' => 'success', 'text' => 'Le bien a bien été crée.']])/*->onlyInput('email')*/;
-    // }
-
-    public function store(PropertyFormRequest $request) {
+    public function store(PropertyFormRequest $request) 
+    {
         // Valider les données du formulaire
         $validatedData = $request->validated();
-
-        // Enregistrer le fichier et obtenir le chemin
-        $filePath = $request->file('image')->store('images', 'public');
-
-        // Ajouter le chemin du fichier aux données validées
-        $validatedData['file_path'] = $filePath;
-
+    
+        // Initialiser un tableau pour stocker les chemins des images
+        $imagePaths = [];
+    
+        // Vérifier si des images sont téléchargées
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                // Enregistrer chaque image et obtenir le chemin
+                $filePath = $image->store('images', 'public');
+                // Ajouter le chemin de l'image au tableau
+                $imagePaths[] = $filePath;
+            }
+        }
+    
+        // Ajouter les chemins des images aux données validées
+        $validatedData['image_paths'] = $imagePaths;
+    
         // Créer une instance de Property avec toutes les données validées
         $property = Property::create($validatedData);
-
+    
         // Sync les options
         $property->options()->sync($validatedData['options']);
-
+    
         // Redirection avec un message de succès
-        return to_route('admin.property.index')->with(['message' => ['type' => 'success', 'text' => 'Le bien a bien été crée.']])/*->onlyInput('email')*/;
+        return to_route('admin.property.index')
+            ->with(['message' => ['type' => 'success', 'text' => 'Le bien a bien été créé.']]);
     }
-
-    /*public function store(PropertyFormRequest $request) {
-        // Valider les données du formulaire
-        $validatedData = $request->validated();
-
-        // Enregistrer le fichier et obtenir le chemin
-        $validatedData['file_path'] = $request->file('image')->store('images', 'public');
-
-        // Créer une instance de Property avec toutes les données validées et le chemin du fichier
-        Property::create($validatedData)->options()->sync($validatedData['options']);
-
-        // Redirection avec un message de succès
-        return to_route('admin.property.index')->with(['message' => ['type' => 'success', 'text' => 'Le bien a bien été crée.']])/*->onlyInput('email')/;
-    }*/
 
     /**
      * Display the specified resource.
@@ -113,28 +104,33 @@ class PropertyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(PropertyFormRequest $request, Property $property)
-    // {
-    //     $property->update($request->validated());
-    //     $property->options()->sync($request->validated('options'));
-    //     return to_route('admin.property.index')->with(['message' => ['type' => 'success', 'text' => 'Le bien a bien été modifié.']]);
-    // }
-
-    public function update(PropertyFormRequest $request, Property $property) {
+    public function update(PropertyFormRequest $request, Property $property) 
+    {
         $validatedData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $validatedData['file_path'] = $request->file('image')->store('images', 'public');
+    
+        // Traitement des nouvelles images
+        if ($request->hasFile('images')) {
+            $imagePaths = [];
+    
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('images', 'public');
+            }
+    
+            $validatedData['image_paths'] = $imagePaths;
         }
-
+    
+        // Mise à jour du bien immobilier
         $property->update($validatedData);
-        $property->options()->sync($validatedData['options']);
-
-        return redirect()->route('admin.property.index')->with([
+    
+        // Sync des options
+        if (isset($validatedData['options'])) {
+            $property->options()->sync($validatedData['options']);
+        }
+    
+        return to_route('admin.property.index')->with([
             'message' => ['type' => 'success', 'text' => 'Le bien a bien été modifié.']
         ]);
     }
-
 
     /**
      * Remove the specified resource from storage.

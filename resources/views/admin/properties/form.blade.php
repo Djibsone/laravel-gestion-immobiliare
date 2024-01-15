@@ -20,7 +20,7 @@
         <div class="row">
             @include('shared.input', ['type' => 'textarea', 'class' => 'col', 'name' => 'description', 'value' => $property->description])
             <div class="col row">
-                @include('shared.input', ['type' => 'file', 'class' => 'col', 'label' => 'Image', 'name' => 'image'])
+                @include('shared.input', ['type' => 'file', 'class' => 'col', 'label' => 'Images', 'name' => 'images[]', 'multiple' => true])
             </div>
         </div>
         <div class="row">
