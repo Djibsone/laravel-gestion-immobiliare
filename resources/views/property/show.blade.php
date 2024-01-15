@@ -109,7 +109,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
         
         <div class="col-md-6">
             <h1>{{ $property->title }}</h1>
