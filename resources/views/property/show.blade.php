@@ -113,7 +113,7 @@
         
         <div class="col-md-6">
             <h1>{{ $property->title }}</h1>
-            <h2>{{ $property->rooms }} pièces - {{ $property->surface }} m²</h2>
+            <h2>{{ $property->rooms }} {{ $property->rooms > 1 ? 'pièces' : 'pièce' }} - {{ $property->surface }} m²</h2>
             <div class="text-primary fw-bold" style="font-size: 4rem">
                 {{ number_format($property->price, thousands_separator: ' ') }} XOF
             </div>
