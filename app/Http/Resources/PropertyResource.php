@@ -23,7 +23,8 @@ class PropertyResource extends JsonResource
             'title' => $this->title,
             $this->mergeWhen(true, [
                 'price' => $this->price,
-                'surface' => $this->surface
+                'surface' => $this->surface,
+                'city' => $this->city,
             ]),
             'price' => $this->whenHas(true, $this->prive),
             'options' => OptionResource::collection($this->whenLoaded('options'))

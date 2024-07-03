@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/biens', [PropertyController::class, 'index']);
+Route::get('/bien/{property}', [PropertyController::class, 'show']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
