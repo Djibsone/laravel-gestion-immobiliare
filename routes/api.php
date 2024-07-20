@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\OptionController;
 use App\Http\Controllers\Api\PropertyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/biens', [PropertyController::class, 'index']);
-Route::get('/bien/{property}', [PropertyController::class, 'show']);
+Route::prefix('biens')->controller(PropertyController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/{property}', 'show');
+});
 
+Route::prefix('options')->controller(OptionController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/{option}', 'show');
+    Route::post('/create', 'store');
+    Route::put('/{option}', 'update');
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

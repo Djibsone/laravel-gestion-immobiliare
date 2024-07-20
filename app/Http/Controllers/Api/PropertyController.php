@@ -16,8 +16,12 @@ class PropertyController extends Controller
         return PropertyResource::collection(Property::limit(5)->with('options')->get());
     }
 
-    public function show (Property $property)
+    public function show(Property $property)
     {
-        return PropertyResource::make($property);
+        // Load the 'options' relation
+        $property->load('options');
+
+        // Return the resource
+        return new PropertyResource($property);
     }
 }
